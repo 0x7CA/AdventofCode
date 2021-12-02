@@ -4,8 +4,8 @@ from py.helper import input_as_list_of_strings
 Given a series of commands like `forward 1`, calculate final horizontal position and depth
 Return product of horizontal pos and depth
 
-Keep array for position [horizontal, depth]
-Parse command and apply logic to position array
+Keep struct for position with properties horizontal, depth, aim
+Parse command and apply logic to position struct
 Repeat for each command and return product of position
 
 """
@@ -26,13 +26,12 @@ class Position:
 
 def calculate_position(command_list: [str]) -> Position:
     position = Position()
-    for command in command_list:
-        execute_command(command, position)
+    for command_str in command_list:
+        execute_command(parse_command(command_str), position)
     return position
 
 
-def execute_command(command_str: str, pos: Position):
-    cmd = parse_command(command_str)
+def execute_command(cmd: Command, pos: Position):
     if cmd.direction == "forward":
         pos.horizontal_pos += cmd.step_size
         pos.depth += pos.aim * cmd.step_size
@@ -42,7 +41,7 @@ def execute_command(command_str: str, pos: Position):
         pos.aim += cmd.step_size
 
 
-def parse_command(command_str: str):
+def parse_command(command_str: str) -> Command:
     command_contents = command_str.split(" ")
     return Command(direction=command_contents[0],
                    step_size=int(command_contents[1]))
