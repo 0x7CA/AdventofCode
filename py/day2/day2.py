@@ -12,7 +12,7 @@ Repeat for each command and return product of position
 
 
 class Command:
-    def __init__(self, direction, step_size):
+    def __init__(self, direction: int, step_size: int):
         self.direction = direction
         self.step_size = step_size
 
