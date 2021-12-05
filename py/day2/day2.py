@@ -1,4 +1,4 @@
-from py.helper import input_as_list_of_strings
+from py.helper.input import input_as_list_of_strings
 
 """ Advent of Code 2021 Day 2
 Given a series of commands like `forward 1`, calculate final horizontal position and depth

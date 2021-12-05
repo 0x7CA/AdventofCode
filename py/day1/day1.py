@@ -1,4 +1,4 @@
-from py.helper import input_as_list_of_ints
+from py.helper.input import input_as_list_of_ints
 
 """
 Given a list of integers, calculate number of increases in values

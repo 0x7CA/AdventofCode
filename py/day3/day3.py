@@ -1,4 +1,4 @@
-from py.helper import input_as_list_of_strings
+from py.helper.input import input_as_list_of_strings
 """
 Part 1:
 Given a list of binary numbers, calculate most and least common bit column wise

@@ -1,4 +1,5 @@
-from py.helper import input_as_list_of_int_grids
+from py.helper.input import input_as_list_of_int_grids
+from py.helper.data import Grid
 
 """ Advent of Code Day 4
 Part 1:
@@ -14,7 +15,7 @@ Special considerations:
 """
 
 
-class Board:
+class BingoBoard(Grid):
     def __init__(self, grid: [[int]]):
         self.grid = grid
         self.last_value = None
@@ -27,25 +28,6 @@ class Board:
         self.marked = self._init_empty_grid()
 
         self._populate_lookup()
-
-    def _populate_lookup(self):
-        for row_idx, row in enumerate(self.grid):
-            for col_idx, val in enumerate(row):
-                self.lookup_table[val] = (row_idx, col_idx)
-
-    def _init_empty_grid(self):
-        return [[0 for _ in range(self.n_columns)] for _ in range(self.n_rows)]
-
-    def _get_value_pos(self, val: int) -> (int, int):
-        if val not in self.lookup_table:
-            return None, None
-        return self.lookup_table[val]
-
-    def _get_column(self, col_idx: int) -> [int]:
-        return [x[col_idx] for x in self.grid]
-
-    def _get_row(self, row_idx: int) -> [int]:
-        return self.grid[row_idx]
 
     def mark_value(self, val: int):
         row, col = self._get_value_pos(val)
@@ -70,7 +52,7 @@ class Board:
         return sum([sum(x) for x in unmarked_values])
 
 
-def calculate_final_score(boards: [Board], drawings: [int], last=False) -> int:
+def calculate_final_score(boards: [BingoBoard], drawings: [int], last=False) -> int:
     if last:
         winning_board = calculate_last_winner(boards, drawings)
     else:
@@ -78,14 +60,14 @@ def calculate_final_score(boards: [Board], drawings: [int], last=False) -> int:
     return winning_board.calculate_unmarked_sum() * winning_board.last_value
 
 
-def calculate_winner(boards: [Board], drawings: [int]) -> Board:
+def calculate_winner(boards: [BingoBoard], drawings: [int]) -> BingoBoard:
     for drawing in drawings:
         for board in boards:
             if board.mark_value(drawing):
                 return board
 
 
-def calculate_last_winner(boards: [Board], drawings: [int]) -> Board:
+def calculate_last_winner(boards: [BingoBoard], drawings: [int]) -> BingoBoard:
     won_boards = {}
     last_winning_board = None
     for drawing in drawings:
@@ -100,9 +82,9 @@ def calculate_last_winner(boards: [Board], drawings: [int]) -> Board:
 
 if __name__ == "__main__":
     boards, drawings = input_as_list_of_int_grids("input.txt", 5)
-    boards = [Board(x) for x in boards]
+    boards = [BingoBoard(x) for x in boards]
     print(calculate_final_score(boards, drawings))
     # Reset state for part 2
     boards, drawings = input_as_list_of_int_grids("input.txt", 5)
-    boards = [Board(x) for x in boards]
+    boards = [BingoBoard(x) for x in boards]
     print(calculate_final_score(boards, drawings, last=True))

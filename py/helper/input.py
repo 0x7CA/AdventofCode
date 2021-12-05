@@ -30,5 +30,17 @@ def input_as_list_of_int_grids(file: str, board_size: int) -> [[int]]:
     return grids, metadata
 
 
+def input_as_list_of_line_coordinates(file, sep=" -> ") -> [[int, int, int, int]]:
+    contents = input_as_list_of_strings(file)
+    line_coordinates = []
+    for line in contents:
+        coord_strings = [x.split(",") for x in line.split(sep)]
+        coords = []
+        for coord_string in coord_strings:
+            coords.extend([int(x) for x in coord_string])
+        line_coordinates.append((coords[0], coords[1], coords[2], coords[3]))
+    return line_coordinates
+
+
 def parse_grid_row_string_as_int(row: str) -> [int]:
     return [int(x) for x in re.findall('\\d+', row)]
