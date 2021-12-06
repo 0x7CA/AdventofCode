@@ -42,5 +42,8 @@ def input_as_list_of_line_coordinates(file, sep=" -> ") -> [[int, int, int, int]
     return line_coordinates
 
 
+def input_as_ints(file):
+    return [int(x) for x in input_as_list_of_strings(file)[0].split(",")]
+
 def parse_grid_row_string_as_int(row: str) -> [int]:
     return [int(x) for x in re.findall('\\d+', row)]
